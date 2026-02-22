@@ -1,0 +1,267 @@
+body {
+    background: #0b1120;
+    font-family: 'Segoe UI', sans-serif;
+    color: #e2e8f0;
+    overflow-x: hidden;
+}
+
+.sidebar {
+    width: 300px;
+    height: 100vh;
+    background: #111827;
+    position: fixed;
+    transition: all 0.3s ease;
+    padding: 20px;
+}
+
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.sidebar h5 {
+    padding: 20px;
+    transition: opacity 0.3s;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    color: #9ca3af;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all 0.3s;
+}
+
+.sidebar a:hover {
+    background: #1f2937;
+    color: #fff;
+    transform: translateX(3px);
+}
+
+.sidebar a i {
+    font-size: 18px;
+    min-width: 30px;
+    transition: transform 0.3s;
+}
+
+.sidebar a span {
+    transition: opacity 0.2s ease;
+}
+
+.sidebar.collapsed a span {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.sidebar.collapsed h5 {
+    opacity: 0;
+}
+
+.main {
+    margin-left: 300px;
+    transition: all 0.3s ease;
+}
+
+.main.collapsed {
+    margin-left: 80px;
+}
+
+.navbar {
+    background: #111827;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar .user-menu {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.navbar .user-menu img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid #3b82f6;
+}
+
+.navbar .user-menu span {
+    font-weight: 500;
+    color: #e5e7eb;
+}
+
+.navbar .dropdown-menu {
+    background: #1f2937;
+    color: #e5e7eb;
+}
+
+.navbar .dropdown-menu a {
+    color: #e5e7eb;
+}
+
+.navbar .dropdown-menu a:hover {
+    background: #3b82f6;
+}
+
+.card {
+    background: #1f2937;
+    border: none;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    color: #e5e7eb;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.kpi-card h3 {
+    font-weight: 600;
+}
+
+.chart-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.badge-live {
+    background: #16a34a;
+}
+
+.badge-pending {
+    background: #f59e0b;
+}
+
+.badge-expired {
+    background: #dc2626;
+}
+
+.fc {
+    background: #111827;
+    padding: 15px;
+    border-radius: 12px;
+    height: 100%;
+}
+
+.equal-height {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.equal-height .chart-wrapper,
+.equal-height #calendar,
+.equal-height .table-responsive {
+    flex: 1;
+}
+
+.sidebar a:hover i {
+    transform: scale(1.1);
+    transition: 0.3s;
+}
+
+@keyframes blink {
+    0% {
+        background-color: #ef4444;
+    }
+    50% {
+        background-color: #fbbf24;
+    }
+    100% {
+        background-color: #ef4444;
+    }
+}
+
+.fc-event.blinking {
+    animation: blink 1s infinite;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 300px;
+    background-color: #111827;
+    padding: 20px;
+}
+
+/* Submenu visibility control */
+.submenu {
+    display: none;
+    padding-left: 20px;
+    list-style: none;
+    margin: 0;
+}
+
+/* Main link with submenu */
+.sidebar a.has-submenu {
+    color: #9ca3af;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+/* Show submenu when hovering over the parent link */
+.sidebar a.has-submenu:hover + .submenu,
+.sidebar a.has-submenu:focus + .submenu {
+    display: block;
+}
+
+/* Submenu items */
+.submenu a {
+    color: #9ca3af;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for submenu items */
+.submenu a:hover {
+    background: #1f2937;
+    color: white;
+}
+
+/* Ensure submenu appears below and aligns correctly */
+.submenu {
+    margin-top: 10px;
+}
+
+/* Prevent the submenu from disappearing too fast */
+.sidebar a.has-submenu:focus + .submenu,
+.sidebar a.has-submenu:hover + .submenu {
+    display: block;
+}
+
+/* Submenu stays open when hovered */
+.submenu:hover {
+    display: block;
+}
+
+/* Styling for the collapsed sidebar */
+.sidebar.collapsed a {
+    text-align: center;
+}
+
+.sidebar.collapsed a span {
+    display: none;
+}
+/* Sidebar collapsed state */
+.sidebar.collapsed .submenu {
+    display: none;
+}
+
+/* Submenu visibility when the sidebar is expanded */
+.sidebar:not(.collapsed) .submenu {
+    display: none; /* Ensure it's hidden when sidebar is collapsed */
+}
+
+.sidebar.collapsed a.has-submenu:hover + .submenu {
+    display: none; /* Hide submenu when sidebar is collapsed */
+}
