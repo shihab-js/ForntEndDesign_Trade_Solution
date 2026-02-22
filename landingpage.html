@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trade Finance Dashboard - Live</title>
+
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+
+<link rel="stylesheet" href="css/landingpage_styles.css">
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+    <h5>Trade Finance</h5>
+    <a href="#"><i class="bi bi-speedometer2"></i><span> Dashboard</span></a>
+
+    <!-- LC Management with Submenu -->
+    <a href="#" class="has-submenu"><i class="bi bi-bank"></i><span> Import Operations</span></a>
+    <ul class="submenu">
+        <li><a href="#">Import LC issuance (T&G)</a></li>
+        <li><a href="#">Import LC issuance (Non-T&G)</a></li>
+        <li><a href="#">Import Doc Checking</a></li>
+        <li><a href="#">Import Bills (Matured Payment)</a></li>
+        <li><a href="#">Import Bills Sight and SG</a></li>
+        <li><a href="#">Import Bills Usance and SG</a></li>
+    </ul>
+
+    <!-- LC Management with Submenu -->
+    <a href="#" class="has-submenu"><i class="bi bi-bank"></i><span> Export Operations</span></a>
+    <ul class="submenu">
+        <li><a href="#">Export LC Advising</a></li>
+        <li><a href="#">Bank Guarantee</a></li>
+        <li><a href="#">Buying House</a></li>
+        <li><a href="#">Export Bills - Local</a></li>
+        <li><a href="#">Export Bills - Foreign</a></li>
+        <li><a href="#">Lien of Export LC</a></li>
+        <li><a href="#">Cash Subsidy</a></li>
+    </ul>
+
+    <!-- LC Management with Submenu -->
+    <a href="#" class="has-submenu"><i class="bi bi-person-square"></i><span> Client Opeations</span></a>
+    <ul class="submenu">
+        <li><a href="#">Client Service</a></li>
+
+    </ul>
+
+     <a href="#" class="has-submenu"><i class="bi bi-file-earmark-text"></i><span> Risk & Assurance</span></a>
+    <ul class="submenu">
+        <li><a href="#">Regulatory Reporting</a></li>
+        <li><a href="#">Risk</a></li>
+
+    </ul>
+
+    <a href="#" class="has-submenu"><i class="bi bi-file-earmark-text"></i><span> Remittance Operations</span></a>
+    <ul class="submenu">
+        <li><a href="#">Private Remittance Operations</a></li>
+        <li><a href="#">Commercial Remittance Operations</a></li>
+
+    </ul>
+
+
+    <a href="#"><i class="bi bi-bell"></i><span> Credit Reports</span></a>
+    <a href="#"><i class="bi bi-bell"></i><span> Customer Profile</span></a>
+
+
+    <a href="#"><i class="bi bi-currency-dollar"></i><span> Transactions</span></a>
+    <a href="#"><i class="bi bi-calendar3"></i><span> Calendar</span></a>
+    <a href="#"><i class="bi bi-bell"></i><span> Alerts</span></a>
+
+
+
+
+
+</div>
+
+<div class="main" id="main">
+
+<nav class="navbar navbar-dark px-4 d-flex justify-content-between">
+
+    <div>
+        <button class="btn btn-outline-light btn-sm" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+    </div>
+    <span id="liveClock" class="text-light small"></span>
+    <div class="d-flex align-items-center gap-3">
+
+        <div class="dropdown">
+            <i class="bi bi-bell fs-5 dropdown-toggle" data-bs-toggle="dropdown" style="cursor:pointer;"></i>
+            <ul class="dropdown-menu dropdown-menu-end" id="userNotifications">
+                <!-- Notifications for user -->
+            </ul>
+        </div>
+
+        <div class="dropdown user-menu">
+            <img src="https://i.pravatar.cc/35" alt="User Avatar" class="dropdown-toggle" data-bs-toggle="dropdown">
+            <span class="dropdown-toggle" data-bs-toggle="dropdown">John Doe</span>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Log Out</a></li>
+            </ul>
+        </div>
+    </div>
+
+</nav>
+
+<div class="container-fluid p-4">
+
+    <!-- KPI including Discrepancies -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+            <div class="card p-3 kpi-card">
+                <h6>Total LC Exposure</h6>
+                <h3 id="kpi1">$4.2M</h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 kpi-card">
+                <h6>Active LC</h6>
+                <h3 id="kpi2">52</h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 kpi-card">
+                <h6>Pending Approval</h6>
+                <h3 id="kpi3">9</h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card p-3 kpi-card">
+                <h6>Discrepancies</h6>
+                <h3 id="kpi0">3</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card p-3 equal-height">
+                <h6>Monthly Volume</h6>
+                <div class="chart-wrapper">
+                    <canvas id="chart1"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card p-3 equal-height">
+                <h6>LC Exposure</h6>
+                <div class="chart-wrapper">
+                    <canvas id="chart2"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="card p-3 equal-height">
+                <h6>Monthly Growth</h6>
+                <div class="chart-wrapper">
+                    <canvas id="chart3"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar + Live Transactions -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6 col-md-12">
+            <div class="card p-4 equal-height"><h5>Trade Calendar</h5><div id="calendar" style="flex:1;"></div></div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="card p-4 equal-height">
+                <h5>Live Transactions</h5>
+                <div class="table-responsive mt-3" style="flex:1;">
+                    <table class="table table-dark table-hover" id="liveTable">
+                        <thead><tr><th>ID</th><th>Client</th><th>LC</th><th>Amount</th><th>Status</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td>TXN001</td>
+                                <td>ABC Exports</td>
+                                <td>LC9087</td>
+                                <td>$150,000</td>
+                                <td><span class="badge badge-live">Live</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>TXN002</td>
+                                <td>Global Traders</td>
+                                <td>LC4562</td>
+                                <td>$98,000</td>
+                                <td><span class="badge badge-pending">Pending</span></td>
+                            </tr>
+                            <tr>
+                                <td>TXN003</td>
+                                <td>Prime Imports</td>
+                                <td>LC3321</td>
+                                <td>$210,000</td>
+                                <td><span class="badge badge-expired">Expired</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User-specific Transactions -->
+    <div class="row g-4 mb-4">
+        <div class="col-12">
+            <div class="card p-4">
+                <h5>Your Transactions</h5>
+                <div class="table-responsive mt-3">
+                    <table class="table table-dark table-hover" id="userTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Client</th>
+                            <th>LC</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>TXN101</td>
+                                <td>XYZ Corp</td>
+                                <td>LC9001</td>
+                                <td>$50,000</td>
+                                <td>
+                                    <span class="badge badge-live">Live</span>
+                                </td>
+                                <td>2026-02-19</td>
+                            </tr>
+                            <tr>
+                                <td>TXN102</td>
+                                <td>Alpha Traders</td>
+                                <td>LC9002</td>
+                                <td>$75,000</td>
+                                <td><span class="badge badge-pending">Pending</span>
+                                </td>
+                                <td>2026-02-19</td
+                                ></tr>
+                            <tr>
+                                <td>TXN103</td>
+                                <td>Beta Exports</td>
+                                <td>LC9003</td>
+                                <td>$120,000</td>
+                                <td><span class="badge badge-live">Live</span>
+                                </td>
+                                <td>2026-02-19</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+<script>
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('collapsed');
+    document.getElementById('main').classList.toggle('collapsed');
+}
+
+/* ===============================
+   LIVE CLOCK
+================================ */
+setInterval(() => {
+    const clock = document.getElementById('liveClock');
+    if(clock){
+        clock.innerText = new Date().toLocaleString();
+    }
+}, 1000);
+
+/*
+    For monthly Volume Charts
+*/
+
+const ctx1 = document.getElementById('chart1').getContext('2d');
+const grad1 = ctx1.createLinearGradient(0,0,0,220);
+grad1.addColorStop(0,'#3b82f6');
+grad1.addColorStop(1,'rgba(59,130,246,0.2)');
+const chart1 = new Chart(ctx1,{
+    type:'line',
+    data:{ labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets:[{ data:[500,800,600,900,750,1100,500,800,600,900,750,1100],
+    borderColor:'#3b82f6',
+    backgroundColor:grad1, tension:0.4,
+    fill:true,
+    pointRadius:4,
+    pointHoverRadius:6 }] },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{ labels:{ color:"#e5e7eb" } } },
+        scales:{
+            x:{ ticks:{ color:"#9ca3af" } },
+            y:{ ticks:{ color:"#9ca3af" } } }
+    } });
+
+/*
+    LC Exposure Chart
+*/
+
+const ctx2 = document.getElementById('chart2').getContext('2d');
+const g2a=ctx2.createLinearGradient(0,0,0,220);
+g2a.addColorStop(0,'#3b82f6'); g2a.addColorStop(1,'#60a5fa');
+const g2b=ctx2.createLinearGradient(0,0,0,220);
+g2b.addColorStop(0,'#10b981'); g2b.addColorStop(1,'#6ee7b7');
+const g2c=ctx2.createLinearGradient(0,0,0,220);
+g2c.addColorStop(0,'#f59e0b'); g2c.addColorStop(1,'#fde68a');
+const g2d=ctx2.createLinearGradient(0,0,0,220);
+g2d.addColorStop(0,'#ef4444'); g2d.addColorStop(1,'#fca5a5');
+
+const chart2 = new Chart(ctx2,{
+    type:'doughnut',
+    data:{ labels:['Asia','Europe','ME','Africa'],
+    datasets:[{ data:[40,25,20,15],
+    backgroundColor:[g2a,g2b,g2c,g2d] }] },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                position:'bottom',
+                labels:{ color:"#e5e7eb" }
+                }
+        }
+    }
+    });
+
+/*
+    Monthly Growth
+*/
+
+const ctx3 = document.getElementById('chart3').getContext('2d');
+const grad3 = ctx3.createLinearGradient(0,0,0,220);
+grad3.addColorStop(0,'#10b981');
+grad3.addColorStop(1,'#6ee7b7');
+const chart3 = new Chart(ctx3,{
+    type:'bar',
+    data:{ labels:['Q1','Q2','Q3','Q4'],
+    datasets:[{ data:[12,19,14,22], backgroundColor:grad3 }] },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                display:false } },
+        scales:{
+            x:{ ticks:{ color:"#9ca3af" } },
+            y:{ ticks:{ color:"#9ca3af" } }
+            }
+        }
+});
+
+
+
+/* Calendar */
+document.addEventListener('DOMContentLoaded', function() {
+    const calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+        initialView: 'dayGridMonth', height:"auto",
+        events: [
+            { title: 'LC Expiry', date: '2026-02-25', className:'blinking' },
+            { title: 'Payment Due', date: '2026-02-28', className:'blinking' },
+            { title: 'Payment Due', date: '2026-02-28', className:'blinking' },
+            { title: 'Payment Due', date: '2026-02-28', className:'blinking' },
+            { title: 'Payment Due', date: '2026-02-28', className:'blinking' }
+        ]
+    });
+    calendar.render();
+});
+
+/* Live Updates Simulation */
+setInterval(()=>{
+    // Charts
+    chart1.data.datasets[0].data = chart1.data.datasets[0].data.map(v=>v+Math.floor(Math.random()*100-50));
+    chart1.update();
+    chart3.data.datasets[0].data = chart3.data.datasets[0].data.map(v=>v+Math.floor(Math.random()*5-2));
+    chart3.update();
+    chart2.data.datasets[0].data = chart2.data.datasets[0].data.map(()=>Math.floor(Math.random()*25+10));
+    chart2.update();
+
+    // KPI
+    document.getElementById('kpi0').innerText=Math.floor(Math.random()*10);
+    document.getElementById('kpi1').innerText=`$${(Math.floor(Math.random()*5+4))}M`;
+    document.getElementById('kpi2').innerText=`${Math.floor(Math.random()*50+30)}`;
+    document.getElementById('kpi3').innerText=`${Math.floor(Math.random()*15+5)}`;
+
+    // Live Table
+    const table=document.getElementById('liveTable').querySelector('tbody');
+    Array.from(table.rows).forEach(row=>{
+        const statuses=['badge-live','badge-pending','badge-expired'];
+        const random=statuses[Math.floor(Math.random()*3)];
+        row.cells[4].innerHTML=`<span class="${random}">${random.split('-')[1].toUpperCase()}</span>`;
+    });
+
+    // User Table + Notifications
+    const uTable=document.getElementById('userTable').querySelector('tbody');
+    const notifDropdown=document.getElementById('userNotifications');
+    notifDropdown.innerHTML=''; // clear
+    Array.from(uTable.rows).forEach(row=>{
+        const statuses=['badge-live','badge-pending','badge-expired'];
+        const random=statuses[Math.floor(Math.random()*3)];
+        row.cells[4].innerHTML=`<span class="${random}">${random.split('-')[1].toUpperCase()}</span>`;
+        if(random==='badge-pending'){
+            const li=document.createElement('li');
+            li.innerHTML=`<a class="dropdown-item">${row.cells[1].innerText} - ${row.cells[2].innerText} pending</a>`;
+            notifDropdown.appendChild(li);
+        }
+    });
+
+},2000);
+</script>
+
+</body>
+</html>
